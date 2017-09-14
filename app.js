@@ -18,7 +18,7 @@ if (command === 'add'){
 	var note = notes.addNote(argv.title, argv.body);
 	// if the notes title doesnt exist yet, show title and body of new note entry
 	if (note){
-		console.log('title:' + note.title + ', body:' + note.body);
+		notes.logNote(note);
 	} else	{
 		// Alert that title is already taken!
 		console.log("The title already exists!");
@@ -26,9 +26,16 @@ if (command === 'add'){
 } else if (command === 'list'){
 	notes.getAll();
 } else if (command === 'read'){
-	notes.getNote(argv.title);	
+	var note = notes.getNote(argv.title);
+	if (note){
+		notes.logNote(note);
+	} else {
+		console.log('Note not found.');
+	}
 } else if (command === 'remove'){
-	notes.removeNote(argv.title, argv.body)	
+	var noteRemoved = notes.removeNote(argv.title);
+	var message = noteRemoved ? 'Note was removed': 'Note not found';
+	console.log(message);
 }else {
 	console.log('Command not recognized')
 }

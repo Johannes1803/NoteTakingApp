@@ -7,7 +7,7 @@ var fetchNotes = () => {
 		var notesString = fs.readFileSync('notes-data.json');
 		return JSON.parse(notesString);
 	} catch (e) {
-		// if there are none, notes uis the empty array
+		// if there are none, notes is the empty array
 		return [];
 	}
 };
@@ -37,16 +37,28 @@ var getAll = () => {
 };
 
 var getNote = (title) => {
-	console.log('REading note:', title);
+	var notes = fetchNotes();
+	var filteredNote = notes.filter((note)=> note.title === title);
+	return filteredNote[0];
 };
 
 var removeNote = (title) => {
-	console.log('Remove note:', title);
+	var notes= fetchNotes();
+	var filteredNotes = notes.filter((note)=> note.title !== title);
+	saveNotes(filteredNotes);	
+
+	return notes.length !== filteredNotes.length;
+};
+
+var logNote = (note) => {
+	console.log('--');
+	console.log('title:' + note.title + ', body:' + note.body);
 };
 
 module.exports = {
 	addNote,
 	getAll,
 	getNote,
-	removeNote
+	removeNote,
+	logNote
 };
