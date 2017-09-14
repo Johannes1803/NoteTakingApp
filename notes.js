@@ -1,5 +1,3 @@
-console.log("Starting notes.js");
-
 const fs =require('fs');
 // Fetch all existing notes from the json file
 var fetchNotes = () => {
@@ -33,7 +31,7 @@ var addNote = (title, body)  => {
 };
 
 var getAll = () => {
-	console.log('Getting all notes.');
+	return fetchNotes();
 };
 
 var getNote = (title) => {
@@ -51,6 +49,7 @@ var removeNote = (title) => {
 };
 
 var logNote = (note) => {
+	// debugger;
 	console.log('--');
 	console.log('title:' + note.title + ', body:' + note.body);
 };

@@ -1,4 +1,3 @@
-console.log("Starting app.js");
 // build-in and 3rd party modules
 const fs = require('fs');
 const _ = require('lodash');
@@ -7,11 +6,32 @@ const yargs = require('yargs');
 // own module
 const notes = require('./notes.js');
 
+var titleObject = {
+			describe: 'Title of note',
+			demand: true,
+			alias: 't'
+		};
+var bodyObject = {
+			describe: 'Body of note',
+			demand: true,
+			alias: 'b'
+		};
 // Store the command entered by user
-const argv = yargs.argv;
+const argv = yargs
+	.command('add', 'Add a note',{
+		title: titleObject,
+		body: bodyObject
+	})
+	.command('list', 'List all notes')
+	.command('read', 'Read a note', {
+		title: titleObject
+	})
+	.command('remove', 'Remove a note',{
+		title: titleObject
+	})
+	.help()
+	.argv;	
 var command = argv._[0];
-console.log('Command:',command);
-console.log('yargs:', argv)
 
 // call functions depending on the command user entered in terminal
 if (command === 'add'){
@@ -24,7 +44,9 @@ if (command === 'add'){
 		console.log("The title already exists!");
 	}
 } else if (command === 'list'){
-	notes.getAll();
+	var allNotes = notes.getAll();
+	console.log(`Printing ${allNotes.length} note(s).`);
+	allNotes.forEach((note) => notes.logNote(note));
 } else if (command === 'read'){
 	var note = notes.getNote(argv.title);
 	if (note){
